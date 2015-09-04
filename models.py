@@ -18,9 +18,11 @@ class SteamIDForm(forms.Form):
         except urllib2.HTTPError as e:
             print unicode(e)
             print type(e)
-            return e 
+            return e
         my_games = []
-        for x in parsed['response']['games']:
-            my_games.append(x['name'].lower().strip())
-
+        try:
+            for x in parsed['response']['games']:
+                my_games.append(x['name'].lower().strip())
+        except:
+            return parsed
         return my_games

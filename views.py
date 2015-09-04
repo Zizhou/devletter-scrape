@@ -21,6 +21,8 @@ def main_page(request):
                     x.save()
             if type(my_games) == urllib2.HTTPError:
                 our_games = [my_games]
+            if type(my_games) != type([]):
+                our_games = [my_games]
     context = {
        'form' : form, 
        'matches' : our_games,
