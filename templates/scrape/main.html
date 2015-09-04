@@ -1,0 +1,16 @@
+{% extends 'mybase.html' %}
+{% block head %}
+{% endblock %}
+{% block body %}
+<form action = '{% url 'scrape:main' %}' method = 'POST' name = 'scrapeform'>
+{% csrf_token %}
+{{form}}
+<input type = 'submit' value = 'I own these'>
+</form>
+{% if was_post %}
+The following have been marked as owned on PC:<br>
+{% for x in matches %}
+{{x}}<br>
+{% endfor %}
+{% endif %}
+{% endblock %}

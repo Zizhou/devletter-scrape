@@ -1,0 +1,1 @@
+scrape steam user profiles and mark games in our db as owned if they appear in a user's owned list
