@@ -7,6 +7,23 @@ from scrape.local_secret import API_KEY
 from submit.models import Game
 
 # Create your models here.
+class SteamID(models.Model):
+    steamid = models.IntegerField(max_length = 17, unique = True)
+
+    def __unicode__(self):
+        return self.steamid 
+
+    def process(self): 
+        try:
+            steamid = self.steamid
+            request = urllib2.Request('http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key='+unicode(API_KEY)+'&steamid='+unicode(steamid)+'&include_appinfo=1&format=json')
+            response = urllib2.urlopen(request)
+            parsed = json.loads(response.read())
+        except urllib2.HTTPError as e:
+            print unicode(e)
+            print type(e)
+            return e
+
 
 class SteamIDForm(forms.Form):
     steamid = forms.IntegerField(label = 'SteamID64', widget = forms.NumberInput(attrs={'placeholder':'76561197960434622'}))
