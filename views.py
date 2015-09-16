@@ -1,12 +1,12 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 
-from scrape.models import SteamIDForm 
+from scrape.models import SteamIDForm, GameOwnedForm 
 from submit.models import Game
+from django.contrib.auth.decorators import login_required, permission_required
 
 import json, urllib2
 # Create your views here.
-
 def main_page(request):
     form = SteamIDForm
     our_games = []
@@ -29,3 +29,29 @@ def main_page(request):
        'was_post' : request.method == 'POST',
     }
     return render(request, 'scrape/main.html', context)
+
+@login_required
+def bulk(request):
+    error = []
+    if request.method == 'POST':
+        #processing
+        for x in Game.objects.all():
+            form = GameOwnedForm(request.POST,instance = x, prefix = x.name)
+            if form.is_valid():
+                try:
+                    form.save()
+                    print 'saved ' + unicode(x.name)
+                except:
+                    print 'error with ' + unicode(x.name)
+                    error.append(unicode(x.name))
+
+    form = []
+    for x in Game.objects.all():
+        form.append({'name':x.name, 'form':GameOwnedForm(instance=x, prefix=x.name)})
+
+    context = {
+        'form':form,
+        'error': error,
+        'message': len(error)>0
+    }
+    return render(request, 'scrape/bulk.html', context)

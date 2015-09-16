@@ -1,0 +1,27 @@
+{% extends 'mybase.html' %}
+{% block pagetitle %}
+Bulk Ownership(use caution)
+{% endblock %}
+{% block head %}
+{% endblock %}
+{% block body %}
+{% if message %}
+There were potential problems saving changes to:
+{% for x in error %}
+{{x}}<br>
+{% endfor %}
+{% endif %}
+<form action = {% url 'scrape:bulk' %} method = 'POST' >
+{% csrf_token %}
+{% for x in form %}
+    {{x.form.as_table}}<br>
+{% endfor %}
+<input type = 'submit' value = 'Update!'>
+</form>
+<div class = 'button'>
+<a class = 'fill' href ={% url 'scrape:main'%}>
+Back
+</a>
+</div>
+<div style = 'clear:both'></div>
+{% endblock %}
