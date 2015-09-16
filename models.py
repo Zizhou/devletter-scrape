@@ -4,6 +4,8 @@ import json, urllib2
 
 from scrape.local_secret import API_KEY
 
+from submit.models import Game
+
 # Create your models here.
 
 class SteamIDForm(forms.Form):
@@ -26,3 +28,12 @@ class SteamIDForm(forms.Form):
         except:
             return parsed
         return my_games
+
+#bulk edit form
+class GameOwnedForm(forms.ModelForm):
+    
+    class Meta:
+        model = Game
+        fields = ['name','owned_pc','owned_360','owned_xb1','owned_ps3','owned_ps4','owned_other']
+
+
