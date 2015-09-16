@@ -7,7 +7,7 @@ from scrape.local_secret import API_KEY
 # Create your models here.
 
 class SteamIDForm(forms.Form):
-    steamid = forms.IntegerField(label = 'Steam ID', widget = forms.NumberInput(attrs={'placeholder':'76561197960434622'}))
+    steamid = forms.IntegerField(label = 'SteamID64', widget = forms.NumberInput(attrs={'placeholder':'76561197960434622'}))
 
     def get_list(self):
         try:

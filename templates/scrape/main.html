@@ -1,12 +1,24 @@
 {% extends 'mybase.html' %}
 {% block head %}
 {% endblock %}
+
+{% block pagetitle %}
+{% if user.is_authenticated %}
+Steam scraper
+{% else %}
+LOG IN DAMMIT
+{% endif %}
+{% endblock %}
 {% block body %}
+https://steamid.io to look up the id, use steamID64
+
+{% if user.is_authenticated %}
 <form action = '{% url 'scrape:main' %}' method = 'POST' name = 'scrapeform'>
 {% csrf_token %}
 {{form}}
 <input type = 'submit' value = 'I own these'>
 </form>
+{% endif %}
 {% if was_post %}
 The following have been marked as owned on PC:<br>
 {% for x in matches %}
