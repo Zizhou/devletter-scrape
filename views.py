@@ -40,10 +40,11 @@ def bulk(request):
             if form.is_valid():
                 try:
                     form.save()
-                    print 'saved ' + unicode(x.name)
                 except:
-                    print 'error with ' + unicode(x.name)
-                    error.append(unicode(x.name))
+                    try:
+                        error.append(x.name.decode('utf-8'))
+                    except:
+                        error.append(unicode(x.id)+'this one\'s funny...')
 
     form = []
     for x in Game.objects.all():
