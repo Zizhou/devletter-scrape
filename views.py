@@ -13,7 +13,8 @@ def main_page(request):
     if request.method == 'POST':
         form = SteamIDForm(request.POST)
         if form.is_valid():
-            my_games = form.get_list()
+            saved_id = form.save()
+            my_games = saved_id.get_list()
             for x in Game.objects.all():
                 if x.name.lower() in my_games:
                     our_games.append(x.name)
